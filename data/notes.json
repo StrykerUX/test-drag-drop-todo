@@ -1,0 +1,34 @@
+[
+  {
+    "id": "7af60a96-4b0a-4592-9600-c6c5d3a540e2",
+    "title": "GOTHIC ES GAY?",
+    "color": "#fef08a",
+    "createdAt": "2026-02-27T20:09:48.729Z",
+    "position": {
+      "x": 577.7169799804688,
+      "y": 155.0188751220703
+    },
+    "tasks": [
+      {
+        "id": "7155c2ad-74aa-46f1-80c1-b7f98ce8bfe9",
+        "text": "SI",
+        "completed": false
+      },
+      {
+        "id": "507a6746-c990-4257-8c16-1331cc366c6c",
+        "text": "No",
+        "completed": false
+      },
+      {
+        "id": "46d53848-46db-437c-b38f-66b6c348f2d1",
+        "text": "Maybe",
+        "completed": false
+      },
+      {
+        "id": "a09029eb-683c-4cb9-ac23-9654a35d18ef",
+        "text": "IDK",
+        "completed": false
+      }
+    ]
+  }
+]
