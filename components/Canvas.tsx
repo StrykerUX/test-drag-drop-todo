@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import {
   DndContext,
   DragEndEvent,
@@ -14,10 +14,12 @@ import type { Note } from '@/types'
 import PostIt from './PostIt'
 import TrashCan from './TrashCan'
 import AddNoteButton from './AddNoteButton'
+import FilterBar, { FilterType } from './FilterBar'
 
 export default function Canvas() {
   const [notes, setNotes] = useState<Note[]>([])
   const [activeNote, setActiveNote] = useState<Note | null>(null)
+  const [activeFilter, setActiveFilter] = useState<FilterType>('all')
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -89,6 +91,32 @@ export default function Canvas() {
     setNotes((prev) => [...prev, note])
   }
 
+  const filteredNotes = useMemo(() => {
+    let filtered = [...notes]
+
+    switch (activeFilter) {
+      case 'pending':
+        // Mostrar solo notas con tareas pendientes (al menos una tarea incompleta)
+        filtered = filtered.filter((note) =>
+          note.tasks.some((task) => !task.completed)
+        )
+        break
+      case 'recent':
+        // Ordenar por más recientes primero
+        filtered = filtered.sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        )
+        break
+      case 'all':
+      default:
+        // Mostrar todas las notas
+        break
+    }
+
+    return filtered
+  }, [notes, activeFilter])
+
   return (
     <DndContext
       sensors={sensors}
@@ -96,9 +124,10 @@ export default function Canvas() {
       onDragEnd={handleDragEnd}
     >
       <div className="canvas-bg w-full h-screen overflow-hidden relative">
+        <FilterBar activeFilter={activeFilter} onFilterChange={setActiveFilter} />
         <AddNoteButton onAdd={handleAdd} />
 
-        {notes.map((note) => (
+        {filteredNotes.map((note) => (
           <PostIt
             key={note.id}
             note={note}
