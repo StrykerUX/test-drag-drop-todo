@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${caveat.variable} antialiased`}>{children}</body>
+      <body className={`${caveat.variable} antialiased`} suppressHydrationWarning>{children}</body>
     </html>
   )
 }
