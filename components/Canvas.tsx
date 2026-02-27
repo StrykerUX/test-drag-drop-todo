@@ -56,17 +56,18 @@ export default function Canvas() {
       y: note.position.y + delta.y,
     }
 
-    await fetch(`/api/notes/${active.id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ position: newPosition }),
-    })
-
+    // Optimistic update — move note immediately before API call
     setNotes((prev) =>
       prev.map((n) =>
         n.id === active.id ? { ...n, position: newPosition } : n
       )
     )
+
+    fetch(`/api/notes/${active.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ position: newPosition }),
+    })
   }
 
   const handleUpdate = async (id: string, updates: Partial<Note>) => {
